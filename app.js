@@ -18,6 +18,8 @@ const bookingRouter = require('./Routes/bookingRoutes');
 
 const app = express();
 
+app.enable('trust proxy');
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 // 1) middle ware
