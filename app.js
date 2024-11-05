@@ -6,6 +6,7 @@ const compression = require('compression');
 const hpp = require('hpp');
 const xss = require('xss-clean');
 const mongoStanitize = require('express-mongo-sanitize');
+const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const tourRouter = require('./Routes/tourRoutes');
@@ -26,6 +27,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 // SERVING STATIC FILES
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(cors());
+
+app.options('*', cors());
 
 console.log(process.env.NODE_ENV);
 
