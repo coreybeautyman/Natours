@@ -17,7 +17,7 @@ exports.getCheckoutSession = async (req, res, next) => {
     const tour = await Tour.findById(req.params.tourId);
 
     //   console.log(tour);
-    console.log(req.user);
+    // console.log(req.user);
 
     // 2) CREATE THE  CHECKOUT SESSION
     const session = await stripe.checkout.sessions.create({
@@ -43,7 +43,7 @@ exports.getCheckoutSession = async (req, res, next) => {
       ],
     });
 
-    console.log(session);
+    // console.log(session);
 
     //   3) SEND IT TO THE CLIENT
     res.status(200).json({
@@ -51,7 +51,7 @@ exports.getCheckoutSession = async (req, res, next) => {
       session,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     next(error);
   }
 };

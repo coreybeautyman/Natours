@@ -2,9 +2,9 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const hpp = require('hpp');
 const xss = require('xss-clean');
-
 const mongoStanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -85,6 +85,8 @@ app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
+
+app.use(compression());
 
 // 4) Routes
 app.use('/', viewRouter);
