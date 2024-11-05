@@ -45,15 +45,14 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour',
 });
 
+// LIMIT REQUESTS FROM SAME API
+app.use('/api', limiter);
+
 app.post(
   '/webhook-checkout',
   express.raw({ type: 'application/json' }),
   webhookCheckout,
 );
-
-// LIMIT REQUESTS FROM SAME API
-app.use('/api', limiter);
-
 // SECURITY HTTP HEADERS
 app.use(helmet());
 
