@@ -7,10 +7,13 @@ const {
   getAccount,
   updateUserData,
   getMyTours,
+  alerts,
 } = require('../controllers/viewsController');
 // const { createBookingCheckout } = require('../controllers/bookingController');
 
 const router = express.Router();
+
+router.use(alerts);
 
 // 4) Routes
 router.get('/', isLoggedIn, getOverview);
