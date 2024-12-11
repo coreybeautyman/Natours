@@ -1,37 +1,67 @@
 'use client';
 import React, { FC, useEffect } from 'react';
-import { useTour } from '../context/tourContext';
+import { useTour } from '../context/TourContext';
 import Tour from '../components/Tour';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SideNav from '../components/SideNav';
-import AlertMessage from '../components/AlertMessage';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../context/AuthContext';
+
+import AlertMessageStatic from '../components/AlertMessageStatic';
 
 const MyTours: FC = () => {
   const { loading, myTours, fetchMyTours, myToursInitialised } = useTour();
 
+  const { user, loading: userLoading } = useAuth();
+
   useEffect(() => {
-    console.log(myToursInitialised);
-    if (!myToursInitialised) fetchMyTours();
-  }, [myTours, myToursInitialised]);
+    if (!myToursInitialised && user) fetchMyTours();
+  }, [myToursInitialised, user, fetchMyTours]);
 
   if (loading) return <LoadingSpinner />;
+
+  if (!user && !userLoading) {
+    return (
+      <main className="main">
+        <div className="user-view">
+          <SideNav role={null} />
+          <div className="user-view__content">
+            <AlertMessageStatic
+              message="You are not logged in. Please log in to access your settings."
+              type="error"
+            />
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!loading && myToursInitialised && myTours.length === 0) {
+    return (
+      <main className="main">
+        <div className="user-view">
+          <SideNav role={null} />
+          <div className="user-view__content">
+            <AlertMessageStatic
+              message="You dont have any tour bookings yet"
+              type="error"
+            />
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="main">
       <div className="user-view">
         <SideNav role={null} />
         <div className="user-view__content">
-          {!loading && myToursInitialised && myTours.length === 0 ? (
-            <AlertMessage>No Bookings yet</AlertMessage>
-          ) : (
-            <div className="my-tours">
-              <div className="my-bookings-card-container">
-                {myTours &&
-                  myTours.map((tour) => <Tour tour={tour} key={tour.name} />)}
-              </div>
+          <div className="my-tours">
+            <div className="my-bookings-card-container">
+              {myTours &&
+                myTours.map((tour) => <Tour tour={tour} key={tour.name} />)}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </main>

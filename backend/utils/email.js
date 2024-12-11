@@ -38,7 +38,7 @@ module.exports = class Email {
     // SEND THE EMAIL
 
     // 1) RENDER HTML BASED ON PUG TEMPLATE
-    const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
+    const html = pug.renderFile(`${__dirname}/email/${template}.pug`, {
       firstName: this.firstName,
       url: this.url,
       subject,

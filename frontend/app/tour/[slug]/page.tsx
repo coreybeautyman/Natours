@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useTour } from '@/app/context/tourContext';
+import { useTour } from '@/app/context/TourContext';
 import { useParams } from 'next/navigation';
 import TourPageSectionHeader from '@/app/components/TourPageSectionHeader';
 import TourPageSectionDescription from '@/app/components/TourPageSectionDescription';
@@ -11,13 +11,12 @@ import TourPageSectionCTA from '@/app/components/TourPageSectionCTA';
 import Head from 'next/head';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 
-const TourPage: React.FC = () => {
+const TourPage = () => {
   const { slug } = useParams();
   const { loading, tour, fetchOneTour } = useTour();
   useEffect(() => {
     fetchOneTour(slug);
   }, [slug]);
-
   if (loading) return <LoadingSpinner />;
 
   if (tour)
@@ -51,8 +50,8 @@ const TourPage: React.FC = () => {
           <TourPageSectionCTA
             images={tour.images}
             duration={tour.duration}
-            user={true}
             slug={tour.slug}
+            tourId={tour.id}
           />
         </main>
       </>

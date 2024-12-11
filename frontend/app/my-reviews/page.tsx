@@ -1,34 +1,42 @@
 'use client';
 import React, { FC, useEffect } from 'react';
-import { useTour } from '../context/tourContext';
-import Tour from '../components/Tour';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SideNav from '../components/SideNav';
-import { useReview } from '../context/reviewContext';
+import { useReview } from '../context/ReviewContext';
 import AccountSectionMyReviews from '../components/AccountSectionMyReviews';
-import AlertMessage from '../components/AlertMessage';
+import AlertMessageStatic from '../components/AlertMessageStatic';
 
 const MyReviews: FC = () => {
-  const { fetchMyReviews, loading, myReviews } = useReview();
+  const { loadingReviews, myReviews, fetchMyReviews } = useReview();
 
   useEffect(() => {
-    fetchMyReviews();
-  }, []);
+    if (myReviews === undefined) {
+      fetchMyReviews();
+    }
+  }, [myReviews]);
+  if (loadingReviews) return <LoadingSpinner />;
 
-  if (loading) return <LoadingSpinner />;
+  if (!loadingReviews && myReviews?.length === 0) {
+    return (
+      <main className="main">
+        <div className="user-view">
+          <SideNav role={null} />
+          <div className="user-view__content">
+            <AlertMessageStatic message="No reviews yet" type="error" />
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="main">
       <div className="user-view">
         <SideNav role={null} />
         <div className="user-view__content">
-          {!loading && myReviews.length === 0 ? (
-            <AlertMessage>No Reviews yet</AlertMessage>
-          ) : (
-            <div className="my-reviews">
-              <AccountSectionMyReviews reviews={myReviews} />;
-            </div>
-          )}
+          <div className="my-reviews">
+            <AccountSectionMyReviews reviews={myReviews} />;
+          </div>
         </div>
       </div>
     </main>

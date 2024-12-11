@@ -1,13 +1,5 @@
 import React, { FC } from 'react';
-
-interface Image {
-  image: string;
-}
-
-interface PictureProps {
-  images: Image[];
-  name: string;
-}
+import { PictureProps } from '../types/types';
 
 const TourPageSectionPictures: FC<PictureProps> = ({ images, name }) => {
   return (

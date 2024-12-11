@@ -16,14 +16,14 @@ interface Review {
 }
 
 interface ReviewsProps {
-  reviews: Review[];
+  reviews: Review[] | undefined;
 }
 
 const AccountSectionMyReviews: FC<ReviewsProps> = ({ reviews }) => {
   return (
     <section className="section-my-reviews">
       <div className="my-reviews">
-        {reviews.map((review, idx) => (
+        {reviews?.map((review, idx) => (
           <ReviewCard review={review} key={idx} />
         ))}
       </div>

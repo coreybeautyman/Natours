@@ -1,102 +1,91 @@
 'use client';
 
 import axios from 'axios';
-import { ObjectId } from 'mongodb';
-import { useContext, createContext, ReactNode, useState } from 'react';
-import { useAuth } from './authContext';
-
-type Tour = {
-  name: string;
-  slug: string;
-  imageCover: string;
-  duration: number;
-  difficulty: string;
-  summary: string;
-  startLocation: {
-    description: string;
-    type: string;
-    address: string;
-    coordinates: Array<number>;
-  };
-  maxGroupSize: number;
-  ratingsAverage: number;
-  ratingsQuantity: number;
-  price: number;
-  startDates: Date[];
-  locations: Array<{
-    description: string;
-    type: string;
-    coordinates: Array<number>;
-    day: number;
-    _id: ObjectId;
-  }>;
-};
-
-type TourContextType = {
-  allTours: Tour[];
-  myTours: Tour[];
-  tour: Tour | undefined;
-  loading: boolean;
-  error: string | null;
-  fetchAllTours: () => void;
-  fetchMyTours: () => void;
-  fetchOneTour: (slug: string) => void;
-  myToursInitialised: boolean;
-  setMyToursIsInitialised: () => void;
-  allToursInitialised: boolean;
-  setallToursIsInitialised: () => void;
-};
+import {
+  useContext,
+  createContext,
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
+import { useAuth } from './AuthContext';
+import { Tour, TourContextType, TourProviderProps } from '../types/types';
 
 const TourContext = createContext<TourContextType | undefined>(undefined);
-
-type TourProviderProps = {
-  children: ReactNode;
-};
 
 export const TourProvider: React.FC<TourProviderProps> = ({ children }) => {
   const [allTours, setAllTours] = useState<Tour[]>([]);
   const [myTours, setMyTours] = useState<Tour[]>([]);
   const [tour, setTour] = useState<Tour | undefined>(undefined);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [allToursLoading, setAllToursLoading] = useState<boolean>(false);
+  const [oneTourLoading, setOneTourLoading] = useState<boolean>(false);
+  const [myToursLoading, setMyToursLoading] = useState<boolean>(false);
   const [myToursInitialised, setMyToursIsInitialised] =
     useState<boolean>(false);
   const [allToursInitialised, setallToursIsInitialised] =
     useState<boolean>(false);
   const { isAuthenticated } = useAuth();
-  const [error, setError] = useState<string | null>(null);
+  const [myToursError, setMyToursError] = useState<string | null>(null);
+  const [allToursError, setAllToursError] = useState<string | null>(null);
+  const [oneTourError, setOneTourError] = useState<string | null>(null);
+  const [purchasedTour, setPurchasedTour] = useState<boolean>(false);
 
-  const fetchAllTours = async () => {
-    setError(null);
+  const resetTourState = () => {
+    setAllTours([]);
+    setMyTours([]);
+    setTour(undefined);
+    setAllToursLoading(false);
+    setOneTourLoading(false);
+    setMyToursLoading(false);
+    setMyToursIsInitialised(false);
+    setallToursIsInitialised(false);
+    setMyToursError(null);
+    setAllToursError(null);
+    setOneTourError(null);
+    setPurchasedTour(false);
+  };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      resetTourState();
+    }
+  }, [isAuthenticated]);
+
+  const fetchAllTours = useCallback(async () => {
+    setAllToursLoading(true);
+    setAllToursError(null);
+
     try {
       const response = await axios.get('http://127.0.0.1:8000/api/v1/tours');
       setAllTours(response.data.data.doc);
       setallToursIsInitialised(true);
     } catch (error) {
-      setError('Failed to fetch tours');
+      setAllToursError('Failed to fetch tours');
       console.log(error);
     } finally {
-      setLoading(false);
+      setAllToursLoading(false);
     }
-  };
+  }, []);
 
-  const fetchOneTour = async (slug: string) => {
+  const fetchOneTour = async (slug: string | string[] | undefined) => {
     if (!slug) return;
-    setLoading(true);
-    setError(null);
+    setOneTourLoading(true);
+    setOneTourError(null);
     try {
       const response = await axios.get(`http://127.0.0.1:8000/tour/${slug}`);
       setTour(response.data.tour);
     } catch (error) {
       console.log(error);
-      setError('Failed to fetch tour');
+      setOneTourError('Failed to fetch tour');
     } finally {
-      setLoading(false);
+      setOneTourLoading(false);
     }
   };
 
-  const fetchMyTours = async () => {
+  const fetchMyTours = useCallback(async () => {
     if (myToursInitialised || !isAuthenticated) return;
-    setError(null);
+    setMyToursLoading(true);
+    setMyToursError(null);
     try {
       const response = await axios.get(`http://127.0.0.1:8000/my-tours`, {
         withCredentials: true,
@@ -104,12 +93,19 @@ export const TourProvider: React.FC<TourProviderProps> = ({ children }) => {
       setMyTours(response.data.tours);
       setMyToursIsInitialised(true);
     } catch (error) {
+      setMyToursError('failed to load tours');
       console.log(error);
-      setError('Failed to fetch tour');
     } finally {
-      setLoading(false);
+      setMyToursLoading(false);
     }
-  };
+  }, [myToursInitialised, isAuthenticated]);
+
+  useEffect(() => {
+    if (purchasedTour && isAuthenticated) {
+      fetchMyTours();
+      setPurchasedTour(false);
+    }
+  }, [purchasedTour, isAuthenticated, fetchMyTours]);
 
   return (
     <TourContext.Provider
@@ -117,13 +113,19 @@ export const TourProvider: React.FC<TourProviderProps> = ({ children }) => {
         allTours,
         myTours,
         tour,
-        loading,
+        loading: oneTourLoading || myToursLoading || allToursLoading,
         fetchAllTours,
         fetchMyTours,
         fetchOneTour,
-        error,
         myToursInitialised,
         allToursInitialised,
+        allToursError,
+        myToursError,
+        oneTourError,
+        oneTourLoading,
+        myToursLoading,
+        allToursLoading,
+        setPurchasedTour,
       }}
     >
       {children}

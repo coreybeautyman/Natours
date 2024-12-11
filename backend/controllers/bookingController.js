@@ -17,16 +17,13 @@ exports.getCheckoutSession = async (req, res, next) => {
     // 1) GET CURRENTLY BOOKED TOUR
     const tour = await Tour.findById(req.params.tourId);
 
-    //   console.log(tour);
-    // console.log(req.user);
-
     // 2) CREATE THE  CHECKOUT SESSION
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
       //   success_url: `${req.protocol}://${req.get('host')}/?tour=${req.params.tourId}&user=${req.user.id}&price=${tour.price}`,
-      success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
-      cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
+      success_url: `${process.env.FRONTEND_URL}/my-tours`,
+      cancel_url: `${process.env.FRONTEND_URL}/tour/${tour.slug}`,
       customer_email: req.user.email,
       client_reference_id: req.params.tourId,
       line_items: [
@@ -47,8 +44,6 @@ exports.getCheckoutSession = async (req, res, next) => {
       ],
     });
 
-    // console.log(session);
-
     //   3) SEND IT TO THE CLIENT
     res.status(200).json({
       status: 'success',
@@ -60,23 +55,12 @@ exports.getCheckoutSession = async (req, res, next) => {
   }
 };
 
-// exports.createBookingCheckout = catchAsync(async (req, res, next) => {
-//   // THIS IS TEMPORARY AS ITS UNSECURE CAN MAKE BOOKINGS WITHOUT PAYING
-//   const { tour, user, price } = req.query;
-
-//   if (!tour && !user && !price) return next();
-
-//   await Booking.create({ tour, user, price });
-
-//   res.redirect(req.originalUrl.split('?')[0]);
-// });
-
 const createBookingCheckout = async (session) => {
   const tour = session.client_reference_id;
   const user = (await User.findOne({ email: session.customer_email })).id;
   const price = session.amount_total / 100;
 
-  console.log(tour, user, price);
+  // console.log(tour, user, price);
   await Booking.create({ tour, user, price });
 };
 

@@ -33,7 +33,7 @@ const corsOptions = {
   origin:
     process.env.NODE_ENV === 'development'
       ? 'http://127.0.0.1:3000'
-      : 'https://your-frontend-domain.com', // Replace with your frontend domain in production
+      : 'http://127.0.0.1:3000',
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   optionsSuccessStatus: 204,
@@ -54,6 +54,7 @@ const limiter = rateLimit({
   max: 1000,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour',
+  trustProxy: true,
 });
 
 // LIMIT REQUESTS FROM SAME API

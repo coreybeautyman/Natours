@@ -1,32 +1,49 @@
 'use client';
+
 import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import Image from 'next/image';
 
 const SignUpPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [photo, setPhoto] = useState('');
+  const [photoName, setPhotoName] = useState('');
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [displayPhotoName, setDisplayPhotoName] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { isShaking, isFadingOut, signup } = useAuth();
+
+  const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
+    const selectedFile = e.target.files?.[0];
 
-    // Handle sign-up logic here
-    if (password !== passwordConfirm) {
-      console.log('Passwords do not match');
-      return;
+    if (selectedFile) {
+      setDisplayPhotoName(selectedFile.name);
+      setPhotoFile(selectedFile);
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.result) {
+          setPhotoName(reader.result as string);
+        }
+      };
+      reader.readAsDataURL(selectedFile);
     }
+  };
 
-    // Further sign-up logic like API calls, etc.
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Profile Picture:', photo);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    signup(name, email, password, passwordConfirm, photoFile);
   };
 
   return (
     <main className="main">
-      <div className="signup-form">
+      <div
+        className={`signup-form ${isShaking ? 'shake' : ''} ${
+          isFadingOut ? 'fade-out' : ''
+        }`}
+      >
         <h2 className="heading-secondary ma-bt-lg">Sign up for an account</h2>
         <form className="form form--signup" onSubmit={handleSubmit}>
           <div className="form__group">
@@ -91,18 +108,27 @@ const SignUpPage: React.FC = () => {
             />
           </div>
 
-          <div className="form__group">
-            <label htmlFor="photo" className="form__label">
-              Profile picture (optional)
-            </label>
+          <div className="form__group form__photo-upload">
             <input
+              className="form__upload"
+              type="file"
+              accept="image/*"
               id="photo"
-              type="url"
-              className="form__input"
-              placeholder="URL"
-              value={photo}
-              onChange={(e) => setPhoto(e.target.value)}
+              name="photo"
+              onChange={handleImgUpload}
             />
+            <label htmlFor="photo">Choose new photo</label>
+            {photoName && (
+              <span className="signup--photo-preview-cont">
+                <p className="upload--img-text">{displayPhotoName}</p>
+                <Image
+                  className="form__user-photo signup--user-photo"
+                  src={photoName}
+                  alt="User photo"
+                  width={500}
+                />
+              </span>
+            )}
           </div>
 
           <div className="form__group">

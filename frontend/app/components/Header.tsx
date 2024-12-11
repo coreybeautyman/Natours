@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../context/AuthContext';
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
 
-  const handleLogout = (e) => {
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     logout();
   };
@@ -38,7 +38,7 @@ const Header: React.FC = () => {
             </button>
             <Link href="/me" className="nav__el">
               <Image
-                src={`/img/users/${user.photo}`}
+                src={user.photo}
                 alt={`photo of ${user.name}`}
                 className="nav__user-img"
                 width={40}

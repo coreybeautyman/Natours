@@ -21,13 +21,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'A user must have an email'],
     trim: true,
-    unique: true,
+    unique: [true, 'Email adress already exists please login'],
     lowercase: true,
     validate: [validator.isEmail, 'Email not valid'],
   },
   photo: {
     type: String,
-    default: 'default.jpg',
+    default: '/img/default.jpg',
   },
 
   role: {

@@ -3,7 +3,7 @@ import NavItem from './NavItem';
 import { usePathname } from 'next/navigation';
 
 interface Props {
-  role: string | null;
+  role: string | undefined | null;
 }
 
 const SideNav: FC<Props> = ({ role }) => {

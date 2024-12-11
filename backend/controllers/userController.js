@@ -1,8 +1,8 @@
+const multer = require('multer');
+const sharp = require('sharp');
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-const multer = require('multer');
-const sharp = require('sharp');
 
 const { deleteOne, updateOne, getOne, getAll } = require('./handlerFactory');
 
@@ -33,15 +33,15 @@ const upload = multer({
 
 exports.uploadUserPhoto = upload.single('photo');
 
-exports.resizeUsePhoto = catchAsync(async (req, res, next) => {
+exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
-
-  await sharp(req.file.buffer)
+  const buffer = await sharp(req.file.buffer)
     .resize(500, 500)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
-    .toFile(`public/img/tours/${req.body.imageCover}`);
+    .toBuffer();
 
+  req.file.buffer = buffer;
   next();
 });
 
@@ -73,7 +73,10 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
   // 2) FILTER OUT UNWANTED FIELD NAMES
   const filteredBody = filterObj(req.body, 'name', 'email');
-  if (req.file) filteredBody.photo = req.file.filename;
+  if (req.file) {
+    const base64Image = req.file.buffer.toString('base64');
+    filteredBody.photo = `data:image/jpeg;base64,${base64Image}`;
+  }
 
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
@@ -90,7 +93,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
-  const updatedUser = await User.findByIdAndUpdate(req.user.id, {
+  await User.findByIdAndUpdate(req.user.id, {
     active: false,
   });
 

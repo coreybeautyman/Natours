@@ -1209,6 +1209,16 @@ body {
   max-width: 80rem;
   text-align: center;
 }
+.signup-form {
+  margin: 0 auto;
+  max-width: 55rem;
+  background-color: #fff;
+  -webkit-box-shadow: 0 2.5rem 8rem 2rem rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2.5rem 8rem 2rem rgba(0, 0, 0, 0.06);
+  padding: 5rem 7rem;
+  border-radius: 5px;
+}
+
 .error__title {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1241,11 +1251,11 @@ body {
   padding: 5rem 7rem;
   border-radius: 5px;
 }
-
+/* 
 .failed-login {
   background-color: #ff7b78;
   color: white;
-}
+} */
 
 .failed-login.fade-out {
   transition: background-color 0.5s ease;
@@ -1271,19 +1281,16 @@ body {
   }
 }
 
-/* Add the shake animation */
-.shake {
-  animation: shake 0.5s ease;
+.success-signup {
+  background-color: #11ff00ce;
+  color: white;
 }
 
-.signup-form {
-  margin: 0 auto;
-  max-width: 55rem;
-  background-color: #fff;
-  -webkit-box-shadow: 0 2.5rem 8rem 2rem rgba(0, 0, 0, 0.06);
-  box-shadow: 0 2.5rem 8rem 2rem rgba(0, 0, 0, 0.06);
-  padding: 5rem 7rem;
-  border-radius: 5px;
+/* Add the shake animation */
+.shake {
+  background-color: #ff7b78;
+  color: white;
+  animation: shake 0.5s ease;
 }
 
 .form__input {
@@ -1407,7 +1414,10 @@ body {
 }
 
 .alert-page-container {
-  display: flex;
+  position: fixed;
+  z-index: 1000;
+  right: 30%;
+  top: 0px;
   justify-content: center;
 }
 
@@ -1415,11 +1425,33 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ff7370;
   color: white;
   font-size: large;
   width: max-content;
   height: max-content;
   padding: 2rem;
   border-radius: 1.5rem;
+}
+
+.form__btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upload--img-text {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.signup--photo-preview-cont {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.signup--user-photo {
+  margin: 0;
+  width: 45px;
+  height: 45px;
 }

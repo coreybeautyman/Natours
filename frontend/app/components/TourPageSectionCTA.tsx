@@ -1,33 +1,70 @@
 import Link from 'next/link';
 import React, { FC } from 'react';
+import { CtaProps } from '../types/types';
+import axios from 'axios';
+import { useTour } from '../context/TourContext';
+import { useAlert } from '../context/AlertContext';
+import { useAuth } from '../context/AuthContext';
+import Image from 'next/image';
 
-interface Image {
-  image: string;
-}
+const TourPageSectionCTA: FC<CtaProps> = ({
+  images,
+  duration,
+  slug,
+  tourId,
+}) => {
+  const { setPurchasedTour } = useTour();
+  const { triggerAlert } = useAlert();
+  const { user } = useAuth();
 
-interface CtaProps {
-  images: Image[];
-  duration: number;
-  user: boolean;
-  slug: string;
-}
+  const handleBookTour = async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/v1/bookings/checkout-session/${tourId}`,
+        {
+          withCredentials: true,
+        }
+      );
 
-const TourPageSectionCTA: FC<CtaProps> = ({ images, duration, user, slug }) => {
+      const checkoutUrl = response.data.session.url;
+
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      }
+      setPurchasedTour(true);
+    } catch (error) {
+      console.log(error);
+      triggerAlert({
+        message: 'There was an error with the booking, please try again.',
+        type: 'error',
+      });
+    }
+  };
+
   return (
     <section className="section-cta">
       <div className="cta">
         <div className="cta__img cta__img--logo">
-          <img src="/img/logo-white.png" alt="Natours logo" />
+          <Image
+            src="/img/logo-white.png"
+            alt="Natours logo"
+            width={500}
+            height={500}
+          />
         </div>
-        <img
+        <Image
           className="cta__img cta__img--1"
           src={`/img/tours/${images[1]}`}
           alt="Tour picture"
+          width={500}
+          height={500}
         />
-        <img
+        <Image
           className="cta__img cta__img--2"
           src={`/img/tours/${images[2]}`}
           alt="Tour picture 2"
+          width={500}
+          height={500}
         />
         <div className="cta__content">
           <h2 className="heading-secondary">What are you waiting for?</h2>
@@ -38,11 +75,12 @@ const TourPageSectionCTA: FC<CtaProps> = ({ images, duration, user, slug }) => {
               className="btn btn--green span-all-rows"
               id="book-tour"
               data-tour-id={slug}
+              onClick={handleBookTour}
             >
               Book tour now!
             </button>
           ) : (
-            <Link className="btn btn--green span-all-rows" to="/login">
+            <Link className="btn btn--green span-all-rows" href="/login">
               Log in to book tour!
             </Link>
           )}

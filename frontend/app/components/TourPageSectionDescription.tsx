@@ -1,23 +1,8 @@
 import React from 'react';
 import OverviewBox from './OverviewBox';
+import { TourPageSectionDescriptionProps } from '../types/types';
 
-interface Guide {
-  name: string;
-  photo: string;
-  role: 'lead-guide' | 'guide';
-}
-
-interface SectionDescriptionProps {
-  name: string;
-  difficulty: string;
-  maxGroupSize: number;
-  ratingsAverage: number;
-  guides: Guide[];
-  description: string;
-  startDates: Date[];
-}
-
-const TourPageSectionDescription: React.FC<SectionDescriptionProps> = ({
+const TourPageSectionDescription: React.FC<TourPageSectionDescriptionProps> = ({
   name,
   difficulty,
   maxGroupSize,

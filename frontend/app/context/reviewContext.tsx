@@ -1,43 +1,35 @@
 'use client';
 
 import axios from 'axios';
-import { ObjectId } from 'mongodb';
-import { useContext, createContext, ReactNode, useState } from 'react';
-
-type User = {
-  _id: string;
-  name: string;
-  photo: string;
-};
-
-type Review = {
-  id: string;
-  review: string;
-  rating: number;
-  tour: string;
-  user: User;
-};
-
-type ReviewContextType = {
-  loading: boolean;
-  myReviews: Review[] | undefined;
-  fetchMyReviews: () => void;
-  error: string | null;
-};
+import { useContext, createContext, useState, useEffect } from 'react';
+import { Review, ReviewContextType, ReviewProviderProps } from '../types/types';
+import { useAuth } from './AuthContext';
 
 const ReviewContext = createContext<ReviewContextType | undefined>(undefined);
 
-type ReviewProviderProps = {
-  children: ReactNode;
-};
-
 export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingReviews, setLoadingReviews] = useState<boolean>(false);
   const [myReviews, setMyReviews] = useState<Review[] | undefined>(undefined);
-  const [error, setError] = useState<string | null>(null);
+  const [reviewsError, setReviewsError] = useState<string | null>(null);
+  const [myReviewsInitialised, setMyReviewsIsInitialised] =
+    useState<boolean>(false);
+  const { isAuthenticated } = useAuth();
+
+  const resetReviewState = () => {
+    setLoadingReviews(false);
+    setMyReviews(undefined);
+    setReviewsError(null);
+  };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      resetReviewState();
+    }
+  }, [isAuthenticated]);
 
   const fetchMyReviews = async () => {
-    setError(null);
+    setLoadingReviews(true);
+    setReviewsError(null);
     try {
       const response = await axios.get(
         'http://127.0.0.1:8000/api/v1/reviews/my-reviews',
@@ -45,12 +37,13 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
           withCredentials: true,
         }
       );
-
+      setMyReviewsIsInitialised(true);
       setMyReviews(response.data.data.reviews);
     } catch (error) {
+      setReviewsError('error loading reviews');
       console.log(error);
     } finally {
-      setLoading(false);
+      setLoadingReviews(false);
     }
   };
 
@@ -59,8 +52,9 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
       value={{
         fetchMyReviews,
         myReviews,
-        loading,
-        error,
+        loadingReviews,
+        reviewsError,
+        myReviewsInitialised,
       }}
     >
       {children}

@@ -2,57 +2,36 @@
 
 import React, { useEffect } from 'react';
 import Tour from './components/Tour';
-import { ObjectId } from 'mongodb';
-import { useTour } from './context/tourContext';
-import { all } from 'axios';
-import { Spinner } from '@chakra-ui/react';
+import { useTour } from './context/TourContext';
 import LoadingSpinner from './components/LoadingSpinner';
-
-interface TourProp {
-  name: string;
-  slug: string;
-  imageCover: string;
-  duration: number;
-  difficulty: string;
-  summary: string;
-  startLocation: {
-    description: string;
-    type: string;
-    address: string;
-    coordinates: Array<number>;
-  };
-  maxGroupSize: number;
-  ratingsAverage: number;
-  ratingsQuantity: number;
-  price: number;
-  startDates: Date[];
-  locations: Array<{
-    description: string;
-    type: string;
-    coordinates: Array<number>;
-    day: number;
-    _id: ObjectId;
-  }>;
-}
+import { useReview } from './context/ReviewContext';
 
 const OverviewPage: React.FC = () => {
   const {
-    myTours,
     allTours,
     fetchAllTours,
     fetchMyTours,
     loading,
     myToursInitialised,
     allToursInitialised,
+    allToursError,
+    myToursError,
   } = useTour();
 
-  useEffect(() => {
-    if (!myToursInitialised) fetchMyTours();
-  }, [myTours, fetchMyTours, myToursInitialised]);
+  const { fetchMyReviews, reviewsError, myReviewsInitialised } = useReview();
 
   useEffect(() => {
-    if (!allToursInitialised) fetchAllTours();
-  }, [allTours, fetchAllTours]);
+    if (!myToursInitialised && !myToursError) fetchMyTours();
+  }, [fetchMyTours, myToursInitialised, myToursError]);
+
+  useEffect(() => {
+    if (!allToursInitialised && !allToursError) fetchAllTours();
+  }, [fetchAllTours, allToursInitialised, allToursError]);
+
+
+  useEffect(() => {
+    if (!myReviewsInitialised && !reviewsError) fetchMyReviews();
+  }, [fetchMyReviews, myReviewsInitialised, reviewsError]);
 
   if (loading) return <LoadingSpinner />;
 
@@ -60,9 +39,7 @@ const OverviewPage: React.FC = () => {
     <main className="main">
       <div className="card-container">
         {allTours &&
-          allTours.map((tour: TourProp) => (
-            <Tour tour={tour} key={tour.name} />
-          ))}
+          allTours.map((tour) => <Tour tour={tour} key={tour.name} />)}
       </div>
     </main>
   );

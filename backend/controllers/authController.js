@@ -38,9 +38,15 @@ const createSendToken = (user, statusCode, req, res, sendData = true) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  if (req.file) {
+    const base64Image = req.file.buffer.toString('base64');
+    req.body.photo = `data:image/jpeg;base64,${base64Image}`;
+  }
+
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
+    photo: req.body.photo,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
@@ -173,6 +179,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     // });
 
     const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+
     await new Email(user, resetURL).sendPasswordReset();
 
     res.status(200).json({
@@ -220,6 +227,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
+  console.log('UPDATE PASSWORD', req.body);
   // 1) GET USER FROM COLLECTION
   const user = await User.findById(req.user.id).select('+password');
   // 2) CHECK IF POSTED CURRENT PASSWORD IS CORRECT
