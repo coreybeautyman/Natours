@@ -1,22 +1,25 @@
 'use client';
 
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import { useContext, createContext, useState, useEffect } from 'react';
 import { Review, ReviewContextType, ReviewProviderProps } from '../types/types';
 import { useAuth } from './AuthContext';
+import { useAlert } from './AlertContext';
 
 const ReviewContext = createContext<ReviewContextType | undefined>(undefined);
 
 export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
-  const [loadingReviews, setLoadingReviews] = useState<boolean>(false);
+  const [loadingGetReviews, setLoadingGetReviews] = useState<boolean>(false);
+  const [loadingPostReviews, setLoadingPostReviews] = useState<boolean>(false);
   const [myReviews, setMyReviews] = useState<Review[] | undefined>(undefined);
   const [reviewsError, setReviewsError] = useState<string | null>(null);
   const [myReviewsInitialised, setMyReviewsIsInitialised] =
     useState<boolean>(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+  const { triggerAlert } = useAlert();
 
   const resetReviewState = () => {
-    setLoadingReviews(false);
+    setLoadingGetReviews(false);
     setMyReviews(undefined);
     setReviewsError(null);
   };
@@ -27,8 +30,44 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
     }
   }, [isAuthenticated]);
 
+  const postReview = async (
+    review: string,
+    starRating: number,
+    tourId: string
+  ) => {
+    setLoadingPostReviews(true);
+    if (!user || !isAuthenticated) return;
+    console.log(starRating);
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/v1/reviews',
+        {
+          user: user._id,
+          tour: tourId,
+          review,
+          rating: starRating,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response);
+      if (response.data.status === 'success') {
+        triggerAlert({
+          message: 'Review posted successfully',
+          type: 'success',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      triggerAlert({ message: 'Review failed to post', type: 'error' });
+    } finally {
+      setLoadingPostReviews(false);
+    }
+  };
+
   const fetchMyReviews = async () => {
-    setLoadingReviews(true);
+    setLoadingGetReviews(true);
     setReviewsError(null);
     try {
       const response = await axios.get(
@@ -43,7 +82,7 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
       setReviewsError('error loading reviews');
       console.log(error);
     } finally {
-      setLoadingReviews(false);
+      setLoadingGetReviews(false);
     }
   };
 
@@ -52,9 +91,10 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
       value={{
         fetchMyReviews,
         myReviews,
-        loadingReviews,
+        loadingGetReviews,
         reviewsError,
         myReviewsInitialised,
+        postReview,
       }}
     >
       {children}

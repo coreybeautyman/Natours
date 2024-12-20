@@ -57,6 +57,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
     if (password !== passwordConfirm) {
       triggerAlert({ type: 'error', message: 'Passwords do not match' });
+      setLoading(false);
       return;
     }
 
@@ -64,6 +65,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     if (!validEmail) {
       triggerAlert({ type: 'error', message: 'Invalid email address' });
+      setLoading(false);
       return;
     }
 

@@ -10,6 +10,7 @@ import TourPageSectionReviews from '@/app/components/TourPageSectionReviews';
 import TourPageSectionCTA from '@/app/components/TourPageSectionCTA';
 import Head from 'next/head';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
+import TourPageSectionWriteReview from '@/app/components/TourPageSectionWriteReview';
 
 const TourPage = () => {
   const { slug } = useParams();
@@ -53,6 +54,7 @@ const TourPage = () => {
             slug={tour.slug}
             tourId={tour.id}
           />
+          <TourPageSectionWriteReview tourId={tour.id} />
         </main>
       </>
     );

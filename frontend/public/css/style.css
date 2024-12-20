@@ -198,7 +198,6 @@ body {
   font-weight: 400;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  /*Add later when we use this for the button in form*/
   border: none;
   cursor: pointer;
 }
@@ -1251,16 +1250,11 @@ body {
   padding: 5rem 7rem;
   border-radius: 5px;
 }
-/* 
-.failed-login {
-  background-color: #ff7b78;
-  color: white;
-} */
 
 .failed-login.fade-out {
   transition: background-color 0.5s ease;
   color: #777;
-  background-color: #fff; /* Or the default color to which you want it to fade */
+  background-color: #fff;
 }
 
 @keyframes shake {
@@ -1286,7 +1280,6 @@ body {
   color: white;
 }
 
-/* Add the shake animation */
 .shake {
   background-color: #ff7b78;
   color: white;
@@ -1310,8 +1303,6 @@ body {
   border-radius: 4px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  /* Pseudo element (a visible thing that isn't really in the DOM).
-      Also needs -ms- */
 }
 .form__input:focus {
   outline: none;
@@ -1395,22 +1386,21 @@ body {
 
 .section-my-reviews {
   display: flex;
-  /* align-items: center; */
   justify-content: center;
   padding: 2rem;
 }
 
 .my-reviews {
   display: flex;
-  flex-wrap: wrap; /* Enables items to wrap onto a new row */
-  max-width: 1200px; /* Optional: Controls max container width on larger screens */
-  justify-content: center; /* Centers items on each row */
+  flex-wrap: wrap;
+  max-width: 1200px;
+  justify-content: center;
 }
 
 .my-reviews > * {
-  flex: 1 1 45%; /* Flex-grow, flex-shrink, and base width */
-  min-width: 300px; /* Minimum width for each review card */
-  max-width: 500px; /* Optional: Keeps each card from getting too wide */
+  flex: 1 1 45%;
+  min-width: 300px;
+  max-width: 500px;
 }
 
 .alert-page-container {
@@ -1454,4 +1444,42 @@ body {
   margin: 0;
   width: 45px;
   height: 45px;
+}
+
+.review--input {
+  background-color: white;
+  min-height: 13rem;
+  min-width: 50rem;
+
+  border: 2px solid #55c57a;
+  padding: 0.5rem;
+  padding-top: 0.5rem;
+  font-size: medium;
+  resize: vertical;
+}
+
+.review--cont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  max-width: 105rem;
+  margin: 0 auto;
+  overflow: hidden;
+  background-color: #fff;
+  padding: 5rem;
+  border-radius: 2rem;
+  -webkit-box-shadow: 0 3rem 8rem 0.5rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3rem 8rem 0.5rem rgba(0, 0, 0, 0.15);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.section-review {
+  margin-bottom: 10rem;
+  background-color: #f7f7f7;
+  margin: 0 auto;
+  padding: 3rem;
 }

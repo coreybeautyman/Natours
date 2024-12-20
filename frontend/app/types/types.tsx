@@ -40,6 +40,8 @@ export type ReviewContextType = {
   fetchMyReviews: () => void;
   reviewsError: string | null;
   myReviewsInitialised: boolean;
+  postReview: (review: string, tourId: string) => void;
+  loadingGetReviews: boolean;
 };
 
 export interface AuthContextType {

@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { UserSettingsProps } from '../types/types';
 import { useAlert } from '../context/AlertContext';
 import AlertMessageStatic from '../components/AlertMessageStatic';
+import Image from 'next/image';
 
 const UserSettings: React.FC<UserSettingsProps> = () => {
   const { user, loading, updateSettings, updatePassword } = useAuth();
@@ -24,7 +25,7 @@ const UserSettings: React.FC<UserSettingsProps> = () => {
     updateSettings({ name, email, photo: file });
   };
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (newPassword !== passwordConfirm) {
@@ -123,10 +124,12 @@ const UserSettings: React.FC<UserSettingsProps> = () => {
                   />
                 </div>
                 <div className="form__group form__photo-upload">
-                  <img
+                  <Image
                     className="form__user-photo"
-                    src={photo}
+                    src={photo || '/frontend/public/img/users/default.jpg'}
                     alt="User photo"
+                    width={500}
+                    height={500}
                   />
                   <input
                     className="form__upload"

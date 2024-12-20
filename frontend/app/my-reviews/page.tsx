@@ -13,7 +13,7 @@ const MyReviews: FC = () => {
     if (myReviews === undefined) {
       fetchMyReviews();
     }
-  }, [myReviews]);
+  }, [myReviews, fetchMyReviews]);
   if (loadingReviews) return <LoadingSpinner />;
 
   if (!loadingReviews && myReviews?.length === 0) {
