@@ -40,7 +40,11 @@ export type ReviewContextType = {
   fetchMyReviews: () => void;
   reviewsError: string | null;
   myReviewsInitialised: boolean;
-  postReview: (review: string, tourId: string) => void;
+  postReview: (
+    review: string,
+    starRating: number | null,
+    tourId: string
+  ) => void;
   loadingGetReviews: boolean;
 };
 
@@ -95,6 +99,10 @@ export interface CtaProps {
   slug: string;
   tourId: string;
 }
+
+export type WriteReviewProps = {
+  tourId: string;
+};
 
 export type SignupProps = {
   email: string;

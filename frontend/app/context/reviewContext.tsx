@@ -32,12 +32,11 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 
   const postReview = async (
     review: string,
-    starRating: number,
+    starRating: number | null,
     tourId: string
   ) => {
     setLoadingPostReviews(true);
     if (!user || !isAuthenticated) return;
-    console.log(starRating);
     try {
       const response = await axios.post(
         'http://127.0.0.1:8000/api/v1/reviews',
@@ -59,8 +58,16 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
         });
       }
     } catch (error) {
+      if (error.status === 403) {
+        triggerAlert({
+          message: 'Only users are able to post reviews on tours',
+          type: 'error',
+        });
+      } else {
+        triggerAlert({ message: 'Review failed to post', type: 'error' });
+      }
+
       console.log(error);
-      triggerAlert({ message: 'Review failed to post', type: 'error' });
     } finally {
       setLoadingPostReviews(false);
     }

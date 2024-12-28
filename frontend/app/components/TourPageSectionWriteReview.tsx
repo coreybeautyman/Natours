@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
-import { CtaProps } from '../types/types';
+import { WriteReviewProps } from '../types/types';
 import { useAuth } from '../context/AuthContext';
 import { useReview } from '../context/ReviewContext';
 import StarRating from './StarRating';
 
-const TourPageSectionWriteReview: FC<CtaProps> = ({ tourId }) => {
+const TourPageSectionWriteReview: FC<WriteReviewProps> = ({ tourId }) => {
   const [reviewText, setReviewText] = useState<string>('');
   const [starRating, setStarRating] = useState<number | null>(null);
   const { user } = useAuth();
@@ -14,15 +14,17 @@ const TourPageSectionWriteReview: FC<CtaProps> = ({ tourId }) => {
     setReviewText(e.target.value);
   };
 
-  const handleSubmitReview = (e: React.ChangeEvent<HTMLButtonElement>) => {
+  const handleSubmitReview = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     postReview(reviewText, starRating, tourId);
+    setReviewText('');
+    setStarRating(null);
   };
 
   if (user) {
     return (
       <section className="section-review">
-        <form className="review--cont">
+        <form className="review--cont" onSubmit={handleSubmitReview}>
           <h2 className="heading-secondary">What did you think of the tour?</h2>
           <textarea
             className="review--input"
@@ -34,12 +36,9 @@ const TourPageSectionWriteReview: FC<CtaProps> = ({ tourId }) => {
             size={40}
             color="#55c57a"
             onSetMovieRating={setStarRating}
+            rating={starRating}
           />
-          <button
-            className="btn btn--green"
-            id="book-tour"
-            onClick={handleSubmitReview}
-          >
+          <button className="btn btn--green" id="book-tour">
             Submit
           </button>
         </form>
