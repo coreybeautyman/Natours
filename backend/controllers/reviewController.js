@@ -33,7 +33,7 @@ exports.createReview = createOne(Review);
 
 exports.deleteReview = deleteOne(Review);
 
-exports.deleteMyReviews = deleteMany(Review);
+exports.deleteAllMyReviews = deleteMany(Review);
 
 exports.updateReview = updateOne(Review);
 
