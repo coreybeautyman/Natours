@@ -12,7 +12,6 @@ const helmet = require('helmet');
 const tourRouter = require('./Routes/tourRoutes');
 const userRouter = require('./Routes/userRoutes');
 const reviewRouter = require('./Routes/reviewRoutes');
-// const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const viewRouter = require('./Routes/viewRoutes');
 const bookingRouter = require('./Routes/bookingRoutes');
@@ -33,7 +32,7 @@ const corsOptions = {
   origin:
     process.env.NODE_ENV === 'development'
       ? 'http://127.0.0.1:3000'
-      : 'http://127.0.0.1:3000',
+      : process.env.FRONTEND_URL,
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   optionsSuccessStatus: 204,
@@ -43,8 +42,6 @@ app.use(cors(corsOptions));
 
 // COOKIE PARSER
 app.use(cookieParser());
-
-console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
