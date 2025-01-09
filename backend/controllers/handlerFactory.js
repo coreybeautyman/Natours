@@ -16,6 +16,21 @@ exports.deleteOne = (Model) =>
     });
   });
 
+// write a deleteMany function which is similar to deleteOne function but will delete all a users reviews
+exports.deleteMany = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await Model.deleteMany({ user: req.user.id });
+
+    if (!doc) {
+      return next(new AppError('No document found with that ID', 404));
+    }
+
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
+  });
+
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {

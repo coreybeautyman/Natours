@@ -3,6 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 
 const {
   deleteOne,
+  deleteMany,
   updateOne,
   createOne,
   getOne,
@@ -17,10 +18,7 @@ exports.setTourUserIds = (req, res, next) => {
 };
 
 exports.getMyReviews = catchAsync(async (req, res, next) => {
-  console.log('WORKINGGGG');
   const reviews = await Review.find({ user: req.user.id });
-
-  console.log('REVIEWWWWWS:', reviews);
 
   res.status(200).json({
     status: 'success',
@@ -34,6 +32,8 @@ exports.getAllReviews = getAll(Review);
 exports.createReview = createOne(Review);
 
 exports.deleteReview = deleteOne(Review);
+
+exports.deleteMyReviews = deleteMany(Review);
 
 exports.updateReview = updateOne(Review);
 

@@ -128,10 +128,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           withCredentials: true,
         }
       );
+
       if (response.data.status !== 'success') {
         throw new Error('User login failed');
       }
-      console.log(response.data.data.user.photo);
       if (!response.data.data.user.photo.startsWith('data:'))
         response.data.data.user.photo = `/img/users/${response.data.data.user.photo}`;
 

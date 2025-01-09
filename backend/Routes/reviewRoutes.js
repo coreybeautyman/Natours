@@ -7,6 +7,7 @@ const {
   setTourUserIds,
   getReview,
   getMyReviews,
+  deleteAllMyReviews,
 } = require('../controllers/reviewController');
 const { protect, restrictTo } = require('../controllers/authController');
 
@@ -18,7 +19,10 @@ router
   .get(getAllReviews)
   .post(restrictTo('user'), setTourUserIds, createReview);
 
-router.route('/my-reviews').get(getMyReviews);
+router
+  .route('/my-reviews')
+  .get(getMyReviews)
+  .delete(restrictTo('user', 'admin'), deleteAllMyReviews);
 
 router
   .route('/:id')
