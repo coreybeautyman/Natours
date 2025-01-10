@@ -1,6 +1,6 @@
 'use client';
 
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import { useContext, createContext, useState, useEffect } from 'react';
 import { Review, ReviewContextType, ReviewProviderProps } from '../types/types';
 import { useAuth } from './AuthContext';
@@ -58,7 +58,7 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
         });
       }
     } catch (error) {
-      if (error.status === 403) {
+      if (axios.isAxiosError(error) && error.response?.status === 403) {
         triggerAlert({
           message: 'Only users are able to post reviews on tours',
           type: 'error',
@@ -102,6 +102,8 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
         reviewsError,
         myReviewsInitialised,
         postReview,
+        loadingPostReviews,
+        loadingReviews: loadingGetReviews || loadingPostReviews,
       }}
     >
       {children}

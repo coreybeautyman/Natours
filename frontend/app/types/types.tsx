@@ -46,6 +46,7 @@ export type ReviewContextType = {
     tourId: string
   ) => void;
   loadingGetReviews: boolean;
+  loadingPostReviews: boolean;
 };
 
 export interface AuthContextType {
