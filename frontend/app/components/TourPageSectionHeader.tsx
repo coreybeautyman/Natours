@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface TourHeaderProps {
   name: string;
@@ -18,11 +19,12 @@ const TourPageSectionHeader: React.FC<TourHeaderProps> = ({
   return (
     <section className="section-header">
       <div className="header__hero">
-        <div className="header__hero-overlay">&nbsp;</div>
-        <img
+        <Image
           className="header__hero-img"
           src={`/img/tours/${imageCover}`}
           alt={`${name}`}
+          layout="fill"
+          objectFit="cover"
         />
       </div>
       <div className="heading-box">

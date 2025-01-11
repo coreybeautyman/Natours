@@ -4,12 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import SideNav from '../components/SideNav';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { UserSettingsProps } from '../types/types';
 import { useAlert } from '../context/AlertContext';
 import AlertMessageStatic from '../components/AlertMessageStatic';
 import Image from 'next/image';
 
-const UserSettings: React.FC<UserSettingsProps> = () => {
+const UserSettings: React.FC = () => {
   const { user, loading, updateSettings, updatePassword } = useAuth();
   const { triggerAlert } = useAlert();
   const [name, setName] = useState<string>('');
@@ -69,7 +68,7 @@ const UserSettings: React.FC<UserSettingsProps> = () => {
           'You are not logged in. Please log in to access your settings.',
       });
     }
-  }, []);
+  }, [user, loading, triggerAlert]);
 
   if (loading) return <LoadingSpinner />;
 

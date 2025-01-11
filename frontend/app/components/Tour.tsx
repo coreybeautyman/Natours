@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface TourProps {
   tour: {
@@ -25,11 +26,12 @@ const Tour: React.FC<TourProps> = ({ tour }) => {
     <div key={tour.slug} className="card">
       <div className="card__header">
         <div className="card__picture">
-          <div className="card__picture-overlay">&nbsp;</div>
-          <img
+          <Image
             className="card__picture-img"
-            src={`img/tours/${tour.imageCover}`}
+            src={`/img/tours/${tour.imageCover}`}
             alt={tour.name}
+            layout="fill"
+            objectFit="cover"
           />
         </div>
         <h3 className="heading-tertirary">

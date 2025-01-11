@@ -1,17 +1,20 @@
 import React, { FC } from 'react';
+import Image from 'next/image';
 import { PictureProps } from '../types/types';
 
 const TourPageSectionPictures: FC<PictureProps> = ({ images, name }) => {
   return (
     <section className="section-pictures">
       {images.map((img, i) => (
-        <div key={i} className="picture-box">
-          <img
-            className={`picture-box__img picture-box__img--${i + 1}`}
-            src={`/img/tours/${img}`}
-            alt={`${name} Tour ${i + 1}`}
-          />
-        </div>
+        <Image
+          key={i}
+          className={`picture-box__img picture-box__img--${i + 1}`}
+          src={`/img/tours/${img}`}
+          alt={`${name} Tour ${i + 1}`}
+          layout="responsive"
+          width={500}
+          height={300}
+        />
       ))}
     </section>
   );

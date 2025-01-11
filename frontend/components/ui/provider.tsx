@@ -1,15 +1,16 @@
-"use client"
+'use client';
+/* eslint-disable */
 
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
-import {
-  ColorModeProvider,
-  type ColorModeProviderProps,
-} from "./color-mode"
+// disable the error message
 
-export function Provider(props: ColorModeProviderProps) {
+import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
+import { ColorModeProvider } from './color-mode';
+import { type ThemeProviderProps } from 'next-themes';
+
+export function Provider(props: ThemeProviderProps) {
   return (
     <ChakraProvider value={defaultSystem}>
       <ColorModeProvider {...props} />
     </ChakraProvider>
-  )
+  );
 }

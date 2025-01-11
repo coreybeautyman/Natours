@@ -59,7 +59,7 @@ export default function StarRating({
           <span key={i}>
             <Star
               onRate={() => handleRating(i + 1)}
-              full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
+              full={tempRating ? tempRating >= i + 1 : internalRating >= i + 1}
               onHoverIn={() => setTempRating(i + 1)}
               onHoverOut={() => setTempRating(0)}
               color={color}
@@ -70,8 +70,8 @@ export default function StarRating({
       </div>
       <p style={textStyle}>
         {messages.length === maxRating
-          ? messages[tempRating ? tempRating - 1 : rating - 1]
-          : tempRating || rating || ''}
+          ? messages[tempRating ? tempRating - 1 : internalRating - 1]
+          : tempRating || internalRating || ''}
       </p>
     </div>
   );

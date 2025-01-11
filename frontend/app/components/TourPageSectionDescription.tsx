@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import OverviewBox from './OverviewBox';
 import { TourPageSectionDescriptionProps } from '../types/types';
 
@@ -45,11 +46,13 @@ const TourPageSectionDescription: React.FC<TourPageSectionDescriptionProps> = ({
           <div className="overview-box__group">
             <h2 className="heading-secondary ma-bt-lg">Your tour guides</h2>
             {guides.map((guide) => (
-              <div key={guide.name} className="overview-box__detail">
-                <img
+              <React.Fragment key={guide.name}>
+                <Image
                   className="overview-box__img"
                   src={`/img/users/${guide.photo}`}
                   alt={guide.name}
+                  width={500}
+                  height={500}
                 />
                 {guide.role === 'lead-guide' && (
                   <span className="overview-box__label">Lead guide</span>
@@ -58,7 +61,7 @@ const TourPageSectionDescription: React.FC<TourPageSectionDescriptionProps> = ({
                   <span className="overview-box__label">Tour guide</span>
                 )}
                 <span className="overview-box__text">{guide.name}</span>
-              </div>
+              </React.Fragment>
             ))}
           </div>
         </div>

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 interface User {
@@ -18,10 +19,12 @@ interface reviewCardProps {
 const ReviewCard: React.FC<reviewCardProps> = ({ review }) => (
   <div className="reviews__card">
     <div className="reviews__avatar">
-      <img
+      <Image
         className="reviews__avatar-img"
         src={`/img/users/${review.user.photo}`}
         alt={review.user.name}
+        width={50}
+        height={50}
       />
       <h6 className="reviews__user">{review.user.name}</h6>
     </div>

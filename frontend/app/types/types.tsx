@@ -127,6 +127,9 @@ export interface PictureProps {
 
 export type UserSettingsProps = {
   user: User;
+  loading: boolean;
+  updateSettings: (data: DataType) => void;
+  updatePassword: (data: PasswordData) => void;
 };
 
 export interface ReviewsProps {

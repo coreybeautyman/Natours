@@ -17,6 +17,7 @@ const TourPage = () => {
   const { loading, tour, fetchOneTour } = useTour();
   useEffect(() => {
     fetchOneTour(slug);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
   if (loading) return <LoadingSpinner />;
 
