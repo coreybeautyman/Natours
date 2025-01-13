@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useAuth } from '../context/TempAuthContext';
+import { useAuth } from '../context/AuthContext';
 import Image from 'next/image';
 
 const SignUpPage: React.FC = () => {

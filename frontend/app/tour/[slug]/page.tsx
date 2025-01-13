@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useTour } from '@/app/context/TempTourContext';
+import { useTour } from '@/app/context/TourContext';
 import { useParams } from 'next/navigation';
 import TourPageSectionHeader from '@/app/components/TourPageSectionHeader';
 import TourPageSectionDescription from '@/app/components/TourPageSectionDescription';

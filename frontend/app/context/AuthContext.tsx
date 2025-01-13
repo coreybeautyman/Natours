@@ -4,7 +4,7 @@ import axios, { AxiosError } from 'axios';
 import validator from 'validator';
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAlert } from './TempAlertContext';
+import { useAlert } from './AlertContext';
 import {
   AuthContextType,
   AuthProviderProps,

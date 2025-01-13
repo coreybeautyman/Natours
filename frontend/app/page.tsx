@@ -2,9 +2,9 @@
 
 import React, { useEffect } from 'react';
 import Tour from './components/Tour';
-import { useTour } from './context/TempTourContext';
+import { useTour } from './context/TourContext';
 import LoadingSpinner from './components/LoadingSpinner';
-import { useReview } from './context/TempReviewContext';
+import { useReview } from './context/ReviewContext';
 
 const OverviewPage: React.FC = () => {
   const {

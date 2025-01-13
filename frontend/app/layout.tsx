@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'; // Import Metadata type
 import Header from './components/Header'; // Import Header component
 import '../public/css/style.css'; // Global styles
-import { AuthProvider } from './context/TempAuthContext';
-import { TourProvider } from './context/TempTourContext';
+import { AuthProvider } from './context/AuthContext';
+import { TourProvider } from './context/TourContext';
 import { Provider } from '@/components/ui/provider';
-import { ReviewProvider } from './context/TempReviewContext';
+import { ReviewProvider } from './context/ReviewContext';
 import AlertMessage from './components/AlertMessage';
 import { AlertProvider } from './context/TempAlertContext';
 
