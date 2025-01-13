@@ -6,7 +6,7 @@ import { TourProvider } from './context/TourContext';
 import { Provider } from '@/components/ui/provider';
 import { ReviewProvider } from './context/ReviewContext';
 import AlertMessage from './components/AlertMessage';
-import { AlertProvider } from './context/TempAlertContext';
+import { AlertProvider } from './context/AlertContext';
 
 // Define metadata for the app
 export const metadata: Metadata = {
