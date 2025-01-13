@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { CtaProps } from '../types/types';
 import axios from 'axios';
 import { useTour } from '../context/TourContext';
-import { useAlert } from '../context/TempAlertContext';
+import { useAlert } from '../context/AlertContext';
 import { useAuth } from '../context/AuthContext';
 import Image from 'next/image';
 

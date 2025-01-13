@@ -1,7 +1,7 @@
 'use client';
 
 import React, { FC } from 'react';
-import { useAlert } from '../context/TempAlertContext';
+import { useAlert } from '../context/AlertContext';
 
 const AlertMessage: FC = () => {
   const { alertMessage } = useAlert();
