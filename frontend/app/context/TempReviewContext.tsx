@@ -3,8 +3,8 @@
 import axios from 'axios';
 import { useContext, createContext, useState, useEffect } from 'react';
 import { Review, ReviewContextType, ReviewProviderProps } from '../types/types';
-import { useAuth } from './AuthContext';
-import { useAlert } from './AlertContext';
+import { useAuth } from './TempAuthContext';
+import { useAlert } from './TempAlertContext';
 
 const ReviewContext = createContext<ReviewContextType | undefined>(undefined);
 

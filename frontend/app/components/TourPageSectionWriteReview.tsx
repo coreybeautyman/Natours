@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { WriteReviewProps } from '../types/types';
-import { useAuth } from '../context/AuthContext';
-import { useReview } from '../context/ReviewContext';
+import { useAuth } from '../context/TempAuthContext';
+import { useReview } from '../context/TempReviewContext';
 import StarRating from './StarRating';
 
 const TourPageSectionWriteReview: FC<WriteReviewProps> = ({ tourId }) => {

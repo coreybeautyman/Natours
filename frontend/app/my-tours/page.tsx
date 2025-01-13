@@ -1,10 +1,10 @@
 'use client';
 import React, { FC, useEffect } from 'react';
-import { useTour } from '../context/TourContext';
+import { useTour } from '../context/TempTourContext';
 import Tour from '../components/Tour';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SideNav from '../components/SideNav';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/TempAuthContext';
 
 import AlertMessageStatic from '../components/AlertMessageStatic';
 

@@ -2,9 +2,9 @@ import Link from 'next/link';
 import React, { FC } from 'react';
 import { CtaProps } from '../types/types';
 import axios from 'axios';
-import { useTour } from '../context/TourContext';
-import { useAlert } from '../context/AlertContext';
-import { useAuth } from '../context/AuthContext';
+import { useTour } from '../context/TempTourContext';
+import { useAlert } from '../context/TempAlertContext';
+import { useAuth } from '../context/TempAuthContext';
 import Image from 'next/image';
 
 const TourPageSectionCTA: FC<CtaProps> = ({

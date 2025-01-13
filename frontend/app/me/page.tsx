@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/TempAuthContext';
 import SideNav from '../components/SideNav';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { useAlert } from '../context/AlertContext';
+import { useAlert } from '../context/TempAlertContext';
 import AlertMessageStatic from '../components/AlertMessageStatic';
 import Image from 'next/image';
 

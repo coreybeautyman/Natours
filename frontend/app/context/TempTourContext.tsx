@@ -8,7 +8,7 @@ import {
   useCallback,
   useEffect,
 } from 'react';
-import { useAuth } from './AuthContext';
+import { useAuth } from './TempAuthContext';
 import { Tour, TourContextType, TourProviderProps } from '../types/types';
 
 const TourContext = createContext<TourContextType | undefined>(undefined);

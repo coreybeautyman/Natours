@@ -2,9 +2,9 @@
 
 import React, { useEffect } from 'react';
 import Tour from './components/Tour';
-import { useTour } from './context/TourContext';
+import { useTour } from './context/TempTourContext';
 import LoadingSpinner from './components/LoadingSpinner';
-import { useReview } from './context/ReviewContext';
+import { useReview } from './context/TempReviewContext';
 
 const OverviewPage: React.FC = () => {
   const {
@@ -27,7 +27,6 @@ const OverviewPage: React.FC = () => {
   useEffect(() => {
     if (!allToursInitialised && !allToursError) fetchAllTours();
   }, [fetchAllTours, allToursInitialised, allToursError]);
-
 
   useEffect(() => {
     if (!myReviewsInitialised && !reviewsError) fetchMyReviews();

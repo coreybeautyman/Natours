@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'; // Import Metadata type
 import Header from './components/Header'; // Import Header component
 import '../public/css/style.css'; // Global styles
-import { AuthProvider } from './context/AuthContext';
-import { TourProvider } from './context/TourContext';
+import { AuthProvider } from './context/TempAuthContext';
+import { TourProvider } from './context/TempTourContext';
 import { Provider } from '@/components/ui/provider';
-import { ReviewProvider } from './context/ReviewContext';
+import { ReviewProvider } from './context/TempReviewContext';
 import AlertMessage from './components/AlertMessage';
-import { AlertProvider } from './context/AlertContext';
+import { AlertProvider } from './context/TempAlertContext';
 
 // Define metadata for the app
 export const metadata: Metadata = {
