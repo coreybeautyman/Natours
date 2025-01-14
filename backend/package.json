@@ -49,6 +49,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.35.2",
+    "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.5",
     "prettier": "^3.3.3"
   }
