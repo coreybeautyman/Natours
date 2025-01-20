@@ -39,7 +39,7 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
     if (!user || !isAuthenticated) return;
     try {
       const response = await axios.post(
-        'http://127.0.0.1:8000/api/v1/reviews',
+        'https://natours-o4am.onrender.com/api/v1/reviews',
         {
           user: user._id,
           tour: tourId,
@@ -78,7 +78,7 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
     setReviewsError(null);
     try {
       const response = await axios.get(
-        'http://127.0.0.1:8000/api/v1/reviews/my-reviews',
+        'https://natours-o4am.onrender.com/api/v1/reviews/my-reviews',
         {
           withCredentials: true,
         }

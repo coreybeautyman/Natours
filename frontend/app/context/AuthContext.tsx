@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const verifyUser = async () => {
       try {
         const response = await axios.get(
-          'http://127.0.0.1:8000/api/v1/users/me',
+          'https://natours-o4am.onrender.com/api/v1/users/me',
           {
             withCredentials: true,
           }
@@ -82,7 +82,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     formData.append('passwordConfirm', passwordConfirm);
 
     try {
-      await axios.post('http://127.0.0.1:8000/api/v1/users/signup', formData);
+      await axios.post(
+        'https://natours-o4am.onrender.com/api/v1/users/signup',
+        formData
+      );
 
       triggerAlert({
         type: 'success',
@@ -119,7 +122,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/v1/users/login`,
+        `https://natours-o4am.onrender.com/api/v1/users/login`,
         {
           email,
           password,
@@ -163,7 +166,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = async () => {
     try {
       const response = await axios.get(
-        'http://127.0.0.1:8000/api/v1/users/logout',
+        'https://natours-o4am.onrender.com/api/v1/users/logout',
         {
           withCredentials: true,
         }
@@ -192,7 +195,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     try {
-      const url = 'http://127.0.0.1:8000/api/v1/users/updatePassword';
+      const url =
+        'https://natours-o4am.onrender.com/api/v1/users/updatePassword';
 
       await axios.patch(url, passwordData, {
         withCredentials: true,
@@ -218,7 +222,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     formData.append('email', data.email);
 
     try {
-      const url = 'http://127.0.0.1:8000/api/v1/users/updateMe';
+      const url = 'https://natours-o4am.onrender.com/api/v1/users/updateMe';
 
       const res = await axios.patch(url, formData, {
         withCredentials: true,

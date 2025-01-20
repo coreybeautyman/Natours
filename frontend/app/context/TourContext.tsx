@@ -56,7 +56,9 @@ export const TourProvider: React.FC<TourProviderProps> = ({ children }) => {
     setAllToursError(null);
 
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/v1/tours');
+      const response = await axios.get(
+        'https://natours-o4am.onrender.com/api/v1/tours'
+      );
       setAllTours(response.data.data.doc);
       setallToursIsInitialised(true);
     } catch (error) {
@@ -72,7 +74,9 @@ export const TourProvider: React.FC<TourProviderProps> = ({ children }) => {
     setOneTourLoading(true);
     setOneTourError(null);
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/tour/${slug}`);
+      const response = await axios.get(
+        `https://natours-o4am.onrender.com/tour/${slug}`
+      );
       setTour(response.data.tour);
     } catch (error) {
       console.log(error);
@@ -87,9 +91,12 @@ export const TourProvider: React.FC<TourProviderProps> = ({ children }) => {
     setMyToursLoading(true);
     setMyToursError(null);
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/my-tours`, {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `https://natours-o4am.onrender.com/my-tours`,
+        {
+          withCredentials: true,
+        }
+      );
       setMyTours(response.data.tours);
       setMyToursIsInitialised(true);
     } catch (error) {
