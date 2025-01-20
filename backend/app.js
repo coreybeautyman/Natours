@@ -28,11 +28,16 @@ app.set('views', path.join(__dirname, 'views'));
 // SERVING STATIC FILES
 app.use(express.static(path.join(__dirname, 'public')));
 
+const allowedOrigins = ['http://127.0.0.1:3000', process.env.FRONTEND_URL];
+
 const corsOptions = {
-  origin:
-    process.env.NODE_ENV === 'development'
-      ? 'http://127.0.0.1:3000'
-      : process.env.FRONTEND_URL,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   optionsSuccessStatus: 204,
@@ -69,7 +74,7 @@ app.use(helmet());
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ['*'], // This is very permissive and not recommended for production
+      defaultSrc: ['*'],
       scriptSrc: ['*'],
     },
   }),
