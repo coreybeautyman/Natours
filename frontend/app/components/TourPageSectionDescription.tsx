@@ -47,20 +47,22 @@ const TourPageSectionDescription: React.FC<TourPageSectionDescriptionProps> = ({
             <h2 className="heading-secondary ma-bt-lg">Your tour guides</h2>
             {guides.map((guide) => (
               <React.Fragment key={guide.name}>
-                <Image
-                  className="overview-box__img"
-                  src={`/img/users/${guide.photo}`}
-                  alt={guide.name}
-                  width={500}
-                  height={500}
-                />
-                {guide.role === 'lead-guide' && (
-                  <span className="overview-box__label">Lead guide</span>
-                )}
-                {guide.role === 'guide' && (
-                  <span className="overview-box__label">Tour guide</span>
-                )}
-                <span className="overview-box__text">{guide.name}</span>
+                <div className="overview-box__wrapper">
+                  <Image
+                    className="overview-box__img"
+                    src={`/img/users/${guide.photo}`}
+                    alt={guide.name}
+                    width={70}
+                    height={70}
+                  />
+                  <span className="overview-box__text">{guide.name}</span>
+                  {guide.role === 'lead-guide' && (
+                    <span className="overview-box__label">Lead guide</span>
+                  )}
+                  {guide.role === 'guide' && (
+                    <span className="overview-box__label">Tour guide</span>
+                  )}
+                </div>
               </React.Fragment>
             ))}
           </div>

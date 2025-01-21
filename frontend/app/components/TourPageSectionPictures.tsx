@@ -11,9 +11,8 @@ const TourPageSectionPictures: FC<PictureProps> = ({ images, name }) => {
           className={`picture-box__img picture-box__img--${i + 1}`}
           src={`/img/tours/${img}`}
           alt={`${name} Tour ${i + 1}`}
-          layout="responsive"
-          width={500}
-          height={300}
+          width={350}
+          height={350}
         />
       ))}
     </section>

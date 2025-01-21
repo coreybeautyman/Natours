@@ -19,12 +19,13 @@ const TourPageSectionHeader: React.FC<TourHeaderProps> = ({
   return (
     <section className="section-header">
       <div className="header__hero">
+        <div className="header__hero-overlay">&nbsp;</div>
         <Image
           className="header__hero-img"
           src={`/img/tours/${imageCover}`}
           alt={`${name}`}
-          layout="fill"
-          objectFit="cover"
+          width={2000}
+          height={1333}
         />
       </div>
       <div className="heading-box">

@@ -26,13 +26,15 @@ const Tour: React.FC<TourProps> = ({ tour }) => {
     <div key={tour.slug} className="card">
       <div className="card__header">
         <div className="card__picture">
-          <Image
-            className="card__picture-img"
-            src={`/img/tours/${tour.imageCover}`}
-            alt={tour.name}
-            layout="fill"
-            objectFit="cover"
-          />
+          <div className="card__picture-overlay">
+            <Image
+              className="card__picture-img"
+              src={`/img/tours/${tour.imageCover}`}
+              alt={tour.name}
+              width={300}
+              height={300}
+            />
+          </div>
         </div>
         <h3 className="heading-tertirary">
           <span>{tour.name}</span>
